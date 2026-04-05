@@ -7,6 +7,10 @@ import os
 
 from apkg_tools import Apkg
 
+def set_output(name, value):
+    with open(os.environ['GITHUB_OUTPUT'], 'a') as f:
+        print(f"{name}={value}", file=f)
+
 if __name__ == "__main__":
     # create the top-level parser
     parser = argparse.ArgumentParser(description='asustor package helper.')
@@ -29,16 +33,16 @@ if __name__ == "__main__":
         pkg, app_info = apkg.create(args.folder, args.destination)
         if isinstance(pkg, basestring):
             print("Generated file...")
-            print("::set-output name=apkg-file-name::" + os.path.basename(pkg))
-            print("::set-output name=apkg-file-path::" + os.path.normpath(args.destination + "/" + os.path.basename(pkg)))
-            print("::set-output name=apkg-app-info-general-package::" + app_info['general']['package'])
-            print("::set-output name=apkg-app-info-general-name::" + app_info['general']['name'])
-            print("::set-output name=apkg-app-info-general-version::" + app_info['general']['version'])
-            print("::set-output name=apkg-app-info-general-developer::" + app_info['general']['developer'])
-            print("::set-output name=apkg-app-info-general-maintainer::" + app_info['general']['maintainer'])
-            print("::set-output name=apkg-app-info-general-email::" + app_info['general']['email'])
-            print("::set-output name=apkg-app-info-general-website::" + app_info['general']['website'])
-            print("::set-output name=apkg-app-info-general-architecture::" + app_info['general']['architecture'])
-            print("::set-output name=apkg-app-info-general-firmware::" + app_info['general']['firmware'])
+            set_output("apkg-file-name", os.path.basename(pkg))
+            set_output("apkg-file-path", os.path.normpath(args.destination + "/" + os.path.basename(pkg)))
+            set_output("apkg-app-info-general-package", app_info['general']['package'])
+            set_output("apkg-app-info-general-name", app_info['general']['name'])
+            set_output("apkg-app-info-general-version", app_info['general']['version'])
+            set_output("apkg-app-info-general-developer", app_info['general']['developer'])
+            set_output("apkg-app-info-general-maintainer", app_info['general']['maintainer'])
+            set_output("apkg-app-info-general-email", app_info['general']['email'])
+            set_output("apkg-app-info-general-website", app_info['general']['website'])
+            set_output("apkg-app-info-general-architecture", app_info['general']['architecture'])
+            set_output("apkg-app-info-general-firmware", app_info['general']['firmware'])
         else:
             print("Error making package")
