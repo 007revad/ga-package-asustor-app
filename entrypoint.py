@@ -9,7 +9,7 @@ from apkg_tools import Apkg
 
 def set_output(name, value):
     with open(os.environ['GITHUB_OUTPUT'], 'a') as f:
-        print(f"{name}={value}", file=f)
+        f.write("%s=%s\n" % (name, value))
 
 if __name__ == "__main__":
     # create the top-level parser
